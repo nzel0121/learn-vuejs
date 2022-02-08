@@ -26,6 +26,18 @@ export default {
     submitForm: function(){
       //event.preventDefault();
       console.log(this.username, this.password);
+      var url = 'https://jsonplaceholder.typicode.com/users'
+      var data = {
+        username: this.username,
+        password: this.password
+      }
+      axios.post(url, data)
+        .then(function(response){
+          console.log(response);
+        })
+        .catch(function(error){
+          console.log(error);
+        });
     }
   }
 

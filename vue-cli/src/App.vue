@@ -1,7 +1,8 @@
 <template>
   <div>
     {{ str }}
-    <app-header></app-header>
+    <!-- <app-header v-bind:프롭스 속성 이름="상위컴포넌트의 데이터이름"></app-header> -->
+    <app-header v-bind:propsdata="str"></app-header>
   </div>
 </template>
 

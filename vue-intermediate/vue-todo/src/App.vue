@@ -3,7 +3,9 @@
    <TodoHeader/>
    <!-- <TodoInput v-on:하위컴포넌트에서 발생시킨 이벤트이름="현재컴포넌트의 메서드 명"> -->
    <TodoInput v-on:addTodoItem="addOneItem"/>
-   <TodoList v-bind:propsdata="todoItems" v-on:removeItem="removeOneItem"/>
+   <TodoList v-bind:propsdata="todoItems" 
+      v-on:removeItem="removeOneItem" 
+      v-on:toggleItem="toggleOneItem"/>
    <TodoFooter/>
   </div>
 </template>
@@ -30,6 +32,13 @@ export default {
       console.log('remove Items',todoItem, index);
       localStorage.removeItem(localStorage.key(index));
       this.todoItems.splice(index,1);
+    },
+    toggleOneItem: function(todoItem, index){
+      console.log(index);
+      //todoItem.completed = !todoItem.completed;
+      this.todoItems[index].completed = !this.todoItems[index].completed;
+      localStorage.removeItem(todoItem.item);
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     }
   },
   created: function(){

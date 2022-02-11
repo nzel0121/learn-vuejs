@@ -1,8 +1,11 @@
 <template>
   <div>
       <ul>
-         <li v-for="(todoItem,index) in todoItems" v-bind:key="todoItem" class="shadow">
-          {{todoItem}}
+         <li v-for="(todoItem,index) in todoItems" v-bind:key="todoItem.item" class="shadow">
+          <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
+          <span v-bind:class="{textCompleted: todoItem.completed}">
+            {{todoItem.item}}
+          </span>
           <span class="removeBtn" v-on:click="removeTodo(todoItem,index)">
             <i class="fas fa-trash-alt"></i>
           </span>
@@ -23,6 +26,12 @@ export default {
         console.log('remove Items',todoItem, index);
         localStorage.removeItem(localStorage.key(index));
         this.todoItems.splice(index,1);
+      },
+      toggleComplete: function(todoItem, index){
+        console.log(index);
+        todoItem.completed = !todoItem.completed;
+        localStorage.removeItem(todoItem.item);
+        localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
       }
     },
     created: function(){
@@ -30,7 +39,7 @@ export default {
             for(var i=0;i< localStorage.length; i++){
                 // console.log(localStorage.key(i));
                 if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
-                    this.todoItems.push(localStorage.key(i));
+                  this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
                 }
             }
         }
@@ -38,7 +47,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 ul{
   list-style-type: none;
   padding-left: 0px;
@@ -55,9 +64,13 @@ li {
   background: white;
   border-radius: 5px;
 }
-.checkBox {
+.removeBtn{
+  margin-left: auto;
+  color: #de4343;
+}
+.checkBtn {
   line-height: 45px;
-  color: #72acde;
+  color: #62acde;
   margin-right: 5px;
 }
 .checkBtnCompleted{
@@ -66,9 +79,5 @@ li {
 .textCompleted{
   text-decoration: line-through;
   color: #b3adad;
-}
-.removeBtn{
-  margin-left: auto;
-  color: #de4343;
 }
 </style>

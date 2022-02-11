@@ -19,9 +19,8 @@ export default {
     props: ['propsdata'],
     methods:{
       removeTodo: function (todoItem, index) {
-        console.log('remove Items',todoItem, index);
-        localStorage.removeItem(localStorage.key(index));
-        this.todoItems.splice(index,1);
+        this.$emit('removeItem',todoItem,index);
+        
       },
       toggleComplete: function(todoItem, index){
         console.log(index);
